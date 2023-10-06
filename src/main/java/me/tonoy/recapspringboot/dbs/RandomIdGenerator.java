@@ -1,7 +1,7 @@
 package me.tonoy.recapspringboot.dbs;
 
 import lombok.Getter;
-import me.tonoy.recapspringboot.common.RandomString;
+import me.tonoy.recapspringboot.utils.RandomString;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;

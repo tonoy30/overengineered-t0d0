@@ -1,4 +1,4 @@
-package me.tonoy.recapspringboot.common;
+package me.tonoy.recapspringboot.utils;
 
 import java.security.SecureRandom;
 import java.util.stream.Collectors;
