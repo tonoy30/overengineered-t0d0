@@ -1,5 +1,7 @@
 package me.tonoy.recapspringboot;
 
+import lombok.RequiredArgsConstructor;
+import me.tonoy.recapspringboot.config.UserConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,7 +18,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class ApplicationSecurityConfig {
+    private final UserConfiguration userConfiguration;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(req -> req
@@ -36,8 +41,8 @@ public class ApplicationSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
-                .username("user")
-                .password(passwordEncoder().encode("password"))
+                .username(userConfiguration.getName())
+                .password(passwordEncoder().encode(userConfiguration.getPassword()))
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
