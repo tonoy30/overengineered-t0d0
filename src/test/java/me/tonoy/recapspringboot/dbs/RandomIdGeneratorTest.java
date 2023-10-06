@@ -32,7 +32,7 @@ class RandomIdGeneratorTest {
         generator.configure(type, parameters, serviceRegistry);
 
         assertEquals("", generator.getIdPrefix());
-        assertEquals(16, generator.getIdLength());
+        assertEquals("16", generator.getIdLength());
     }
 
     @Test
@@ -45,7 +45,7 @@ class RandomIdGeneratorTest {
         generator.configure(type, parameters, serviceRegistry);
 
         assertEquals("prefix", generator.getIdPrefix());
-        assertEquals(10, generator.getIdLength());
+        assertEquals("10", generator.getIdLength());
     }
 
     @Test
