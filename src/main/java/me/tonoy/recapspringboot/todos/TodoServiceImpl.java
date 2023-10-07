@@ -36,16 +36,26 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Optional<TodoDto> updateTodo(TodoUpdateDto todo) {
-        Optional<TodoEntity> maybeTodoEntity = todoRepository.findByIdAndCreatedBy(todo.getId(), todo.getCreatedBy());
+    public Optional<TodoDto> updateTodo(String todoId, TodoUpdateDto todo) {
+        Optional<TodoEntity> maybeTodoEntity = todoRepository.findByIdAndCreatedBy(todoId, todo.getCreatedBy());
         if (maybeTodoEntity.isPresent()) {
             TodoEntity todoEntity = maybeTodoEntity.get();
             todoEntity.setDescription(todo.getDescription());
             todoEntity.setTitle(todo.getTitle());
             todoEntity.setCompleted(todo.isCompleted());
-            todoEntity.setLastModifiedBy(todo.getUpdatedBy());
+            todoEntity.setLastModifiedBy(todo.getModifiedBy());
             return Optional.of(todoEntity).map(e -> modelMapper.map(e, TodoDto.class));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByIdAndCreatedBy(String todoId, String createdBy) {
+        return todoRepository.existsByIdAndCreatedBy(todoId, createdBy);
+    }
+
+    @Override
+    public void deleteById(String todoId) {
+        todoRepository.deleteById(todoId);
     }
 }

@@ -39,10 +39,18 @@ public class TodoController {
     ResponseEntity<Void> updateTodo(@PathVariable String todoId,
                                     @RequestBody TodoUpdateDto todo,
                                     Principal principal) {
-        todo.setUpdatedBy(principal.getName());
-        Optional<TodoDto> todoDto = todoService.updateTodo(todo);
+        todo.setModifiedBy(principal.getName());
+        Optional<TodoDto> todoDto = todoService.updateTodo(todoId, todo);
         return todoDto.isPresent()
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
+    }
+    @DeleteMapping("/{todoId}")
+    private ResponseEntity<Void> deleteTodo(@PathVariable String todoId, Principal principal) {
+        if (todoService.existsByIdAndCreatedBy(todoId, principal.getName())) {
+            todoService.deleteById(todoId);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

@@ -7,6 +7,8 @@ import me.tonoy.recapspringboot.dbs.BaseEntity;
 import me.tonoy.recapspringboot.dbs.RandomIdGenerator;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 
 @Data
@@ -14,9 +16,11 @@ import org.hibernate.annotations.Parameter;
 @Getter
 @Setter
 @Entity
-@Table(name = "todos")
 @NoArgsConstructor
+@Table(name = "todos")
+@Where(clause = "is_deleted=false")
 @EqualsAndHashCode(callSuper = true)
+@SQLDelete(sql = "UPDATE todos SET is_deleted=true WHERE id=?")
 public class TodoEntity extends BaseEntity {
     @Id
     @GeneratedValue(generator = RandomIdGenerator.ID_GENERATOR_NAME)

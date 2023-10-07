@@ -11,5 +11,9 @@ public interface TodoService {
 
     TodoDto createTodo(TodoCreateDto todo);
 
-    Optional<TodoDto> updateTodo(TodoUpdateDto todo);
+    Optional<TodoDto> updateTodo(String todoId, TodoUpdateDto todo);
+
+    boolean existsByIdAndCreatedBy(String todoId, String createdBy);
+
+    void deleteById(String todoId);
 }

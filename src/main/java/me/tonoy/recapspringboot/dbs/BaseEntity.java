@@ -7,6 +7,7 @@ import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import me.tonoy.recapspringboot.utils.DateService;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
@@ -29,6 +30,9 @@ public abstract class BaseEntity {
 
     @Column(name = "modified_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private ZonedDateTime modifiedDate;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
 
     @PrePersist
     private void setCreationDateTime() {

@@ -6,9 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TodoUpdateDto extends TodoCreateDto {
+public class TodoUpdateDto {
+    private String title;
+    private String description;
+    private boolean completed;
+    private String createdBy;
     @JsonIgnore
-    private String id;
-    @JsonIgnore
-    private String updatedBy;
+    private String modifiedBy;
 }
