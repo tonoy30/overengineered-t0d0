@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 class RandomIdGeneratorTest {
     private RandomIdGenerator generator;
     private Type type;

@@ -27,6 +27,8 @@ public class ApplicationSecurityConfig {
         httpSecurity.authorizeHttpRequests(req -> req
                         .requestMatchers("/api/todos/**")
                         .authenticated()
+                        .requestMatchers("/actuator/**")
+                        .permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());

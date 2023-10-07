@@ -1,15 +1,30 @@
 version: '3.8'
+
 services:
-  postgres:
+  postgresdb1:
     image: postgres:latest
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    container_name: todos_db
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: todosDb
       POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
+    volumes:
+      - postgres_main_data:/var/lib/postgresql/data
+
+  postgresdb2:
+    image: postgres:latest
+    container_name: todos_test_db
+    environment:
+      POSTGRES_DB: todosTestDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  postgres_main_data:
+  postgres_test_data:

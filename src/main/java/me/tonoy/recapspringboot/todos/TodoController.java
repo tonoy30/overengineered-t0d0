@@ -1,7 +1,9 @@
 package me.tonoy.recapspringboot.todos;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import me.tonoy.recapspringboot.todos.dtos.TodoCreateDto;
+import me.tonoy.recapspringboot.todos.dtos.TodoDto;
+import me.tonoy.recapspringboot.todos.dtos.TodoUpdateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -10,7 +12,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.Optional;
 
-@Slf4j
+
 @RestController
 @RequestMapping("/api/todos")
 @RequiredArgsConstructor
@@ -24,9 +26,23 @@ public class TodoController {
     }
 
     @PostMapping
-    ResponseEntity<TodoDto> createTodo(@RequestBody TodoCreateUpdateDto todo, UriComponentsBuilder ucb, Principal principal) {
-        TodoDto todoDto = todoService.createTodo(todo, principal.getName());
+    ResponseEntity<TodoDto> createTodo(@RequestBody TodoCreateDto todo,
+                                       UriComponentsBuilder ucb,
+                                       Principal principal) {
+        todo.setCreatedBy(principal.getName());
+        TodoDto todoDto = todoService.createTodo(todo);
         URI location = ucb.path("/api/todos/{todoId}").buildAndExpand(todoDto.getId()).toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{todoId}")
+    ResponseEntity<Void> updateTodo(@PathVariable String todoId,
+                                    @RequestBody TodoUpdateDto todo,
+                                    Principal principal) {
+        todo.setUpdatedBy(principal.getName());
+        Optional<TodoDto> todoDto = todoService.updateTodo(todo);
+        return todoDto.isPresent()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }
