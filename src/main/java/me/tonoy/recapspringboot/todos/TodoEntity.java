@@ -24,8 +24,7 @@ public class TodoEntity extends BaseEntity {
             type = RandomIdGenerator.class,
             name = RandomIdGenerator.ID_GENERATOR_NAME,
             parameters = {
-                    @Parameter(name = RandomIdGenerator.ID_PREFIX_PARAMETER, value = "todo"),
-                    @Parameter(name = RandomIdGenerator.ID_LENGTH_PARAMETER, value = "10")
+                    @Parameter(name = RandomIdGenerator.ID_PREFIX_PARAMETER, value = "todo")
             }
     )
     @Basic(optional = false)
