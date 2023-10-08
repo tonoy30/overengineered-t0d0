@@ -45,6 +45,7 @@ public class TodoController {
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
+
     @DeleteMapping("/{todoId}")
     private ResponseEntity<Void> deleteTodo(@PathVariable String todoId, Principal principal) {
         if (todoService.existsByIdAndCreatedBy(todoId, principal.getName())) {

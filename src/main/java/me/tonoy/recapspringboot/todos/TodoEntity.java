@@ -42,6 +42,6 @@ public class TodoEntity extends BaseEntity {
     private String description;
 
     @Column(name = "is_completed")
-    private boolean isCompleted;
+    private boolean isCompleted = Boolean.FALSE;
 }
 

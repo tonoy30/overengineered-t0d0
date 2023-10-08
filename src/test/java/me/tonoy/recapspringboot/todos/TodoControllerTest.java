@@ -26,23 +26,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {RecapSpringBootApplication.class,})
+        classes = {
+                RecapSpringBootApplication.class,
+        })
 @ActiveProfiles("test")
 class TodoControllerTest {
+    final TodoDto todoDto = new TodoDto();
     @Autowired
     TestRestTemplate restTemplate;
     @Autowired
     UserConfiguration userConfiguration;
     @Autowired
     ModelMapper modelMapper;
-    final TodoDto todoDto = new TodoDto();
 
     @BeforeEach
     public void setup() {
-        todoDto.setId("todo_S8QfSTEH2YGAdNGF");
         todoDto.setTitle("Post about this project in linkedin!");
-        todoDto.setDescription("laboriosam mollitia et enim quasi adipisci quia provident illum," +
-                               " laboriosam mollitia et enim quasi adipisci quia provident illum");
+        todoDto.setDescription("laboriosam mollitia et enim quasi adipisci quia provident illum," + " laboriosam mollitia et enim quasi adipisci quia provident illum");
         todoDto.setCompleted(false);
         todoDto.setCreatedBy(userConfiguration.getName());
         todoDto.setModifiedBy(userConfiguration.getName());
@@ -60,12 +60,17 @@ class TodoControllerTest {
         URI location = createResponse.getHeaders().getLocation();
         ResponseEntity<String> response = restTemplate.getForEntity(location, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        DocumentContext documentContext = JsonPath.parse(response.getBody());
+
+        String title = documentContext.read("$.title");
+        assertThat(title).isEqualTo(todoDto.getTitle());
     }
 
     @Test
     @DirtiesContext
     void shouldUpdateTodo() {
-
+        todoDto.setId("todo_DatamsJudmOFUN2C");
         TodoUpdateDto todoUpdateDto = modelMapper.map(todoDto, TodoUpdateDto.class);
         todoUpdateDto.setCompleted(true);
 
@@ -74,8 +79,7 @@ class TodoControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
 
-        ResponseEntity<String> getResponse = restTemplate
-                .getForEntity(String.format("/api/todos/%s", todoDto.getId()), String.class);
+        ResponseEntity<String> getResponse = restTemplate.getForEntity(String.format("/api/todos/%s", todoDto.getId()), String.class);
 
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 

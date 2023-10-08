@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
@@ -44,7 +44,8 @@ public class TodoServiceImpl implements TodoService {
             todoEntity.setTitle(todo.getTitle());
             todoEntity.setCompleted(todo.isCompleted());
             todoEntity.setLastModifiedBy(todo.getModifiedBy());
-            return Optional.of(todoEntity).map(e -> modelMapper.map(e, TodoDto.class));
+            TodoEntity savedTodoEntity = todoRepository.save(todoEntity);
+            return Optional.of(savedTodoEntity).map(e -> modelMapper.map(e, TodoDto.class));
         }
         return Optional.empty();
     }
