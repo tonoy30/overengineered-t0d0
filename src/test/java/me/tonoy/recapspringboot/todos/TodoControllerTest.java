@@ -69,8 +69,8 @@ class TodoControllerTest {
 
     @Test
     @DirtiesContext
-    void shouldUpdateTodo() {
-        todoDto.setId("todo_DatamsJudmOFUN2C");
+    void shouldUpdateExistingTodo() {
+        todoDto.setId("todo_abcdef0123456719");
         TodoUpdateDto todoUpdateDto = modelMapper.map(todoDto, TodoUpdateDto.class);
         todoUpdateDto.setCompleted(true);
 
